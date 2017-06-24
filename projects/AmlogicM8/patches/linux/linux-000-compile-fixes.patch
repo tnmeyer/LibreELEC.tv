@@ -1,0 +1,120 @@
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/arch/arm/mach-meson8/cpu.c linux-amlogic-3.10-c8d5b2f/arch/arm/mach-meson8/cpu.c
+--- linux-amlogic-3.10-c8d5b2f.orig/arch/arm/mach-meson8/cpu.c	2016-05-07 12:15:42.785137282 +0200
++++ linux-amlogic-3.10-c8d5b2f/arch/arm/mach-meson8/cpu.c	2016-05-07 12:23:14.160368550 +0200
+@@ -84,3 +84,11 @@
+ 	return 0;
+ }
+ EXPORT_SYMBOL(get_meson_cpu_version);
++
++int (*get_cpu_temperature_celius)(void) = NULL;
++EXPORT_SYMBOL_GPL(get_cpu_temperature_celius);
++
++int get_cpu_temperature(void)
++{
++    return get_cpu_temperature_celius ? get_cpu_temperature_celius() : -1;
++}
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/drivers/amlogic/ionvideo/ionvideo.c linux-amlogic-3.10-c8d5b2f/drivers/amlogic/ionvideo/ionvideo.c
+--- linux-amlogic-3.10-c8d5b2f.orig/drivers/amlogic/ionvideo/ionvideo.c	2016-05-07 12:15:44.701741320 +0200
++++ linux-amlogic-3.10-c8d5b2f/drivers/amlogic/ionvideo/ionvideo.c	2016-05-07 12:21:41.353407079 +0200
+@@ -987,11 +987,6 @@
+     return ret;
+ }
+ 
+-static u32 buf_num_queue(struct vb2_queue *q)
+-{
+-    return atomic_read(&q->queued_count);
+-}
+-
+ static ssize_t vframe_states_show(struct class *class, struct class_attribute* attr, char* buf)
+ {
+     int ret = 0;
+@@ -1008,7 +1003,6 @@
+             ret += sprintf(buf + ret, "ionv buffer state:\n");
+             ret += sprintf(buf + ret, "\t buffer number:%d\n", cur_dma_q->pdev->vb_vidq.num_buffers);
+             ret += sprintf(buf + ret, "\t buffer filled:%d\n", cur_dma_q->vb_ready);
+-            ret += sprintf(buf + ret, "\t buffer in driver:%d\n", buf_num_queue(&cur_dma_q->pdev->vb_vidq));
+         }
+     } else {
+         ret += sprintf(buf + ret, "vframe no states\n");
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/drivers/gpio/gpiolib.c linux-amlogic-3.10-c8d5b2f/drivers/gpio/gpiolib.c
+--- linux-amlogic-3.10-c8d5b2f.orig/drivers/gpio/gpiolib.c	2016-05-07 12:15:44.875068989 +0200
++++ linux-amlogic-3.10-c8d5b2f/drivers/gpio/gpiolib.c	2016-05-07 12:21:41.353407079 +0200
+@@ -988,7 +988,6 @@
+ 	mutex_unlock(&sysfs_lock);
+ 
+ 	if (dev) {
+-		device_remove_file(dev, &dev_attr_edge);
+ 		device_remove_file(dev, &dev_attr_direction);
+ 		sysfs_remove_group(&dev->kobj, &gpio_attr_group);
+ 		device_unregister(dev);
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/fs/mpage.c linux-amlogic-3.10-c8d5b2f/fs/mpage.c
+--- linux-amlogic-3.10-c8d5b2f.orig/fs/mpage.c	2016-05-07 12:15:43.535112775 +0200
++++ linux-amlogic-3.10-c8d5b2f/fs/mpage.c	2016-05-07 12:21:41.353407079 +0200
+@@ -362,10 +362,6 @@
+  *
+  * This all causes the disk requests to be issued in the correct order.
+  */
+-#ifdef CONFIG_CMA
+-extern void wakeup_wq(bool has_cma);
+-extern bool has_cma_page(struct page *page);
+-#endif
+ int
+ mpage_readpages(struct address_space *mapping, struct list_head *pages,
+ 				unsigned nr_pages, get_block_t get_block)
+@@ -375,16 +371,6 @@
+ 	sector_t last_block_in_bio = 0;
+ 	struct buffer_head map_bh;
+ 	unsigned long first_logical_block = 0;
+-#ifdef CONFIG_CMA
+-	bool has_cma = false;
+-	struct page * tmp_page = NULL;
+-
+-	list_for_each_entry(tmp_page, pages, lru){
+-		has_cma = has_cma_page(tmp_page);
+-		if (has_cma)
+-			break;
+-	}
+-#endif
+ 	map_bh.b_state = 0;
+ 	map_bh.b_size = 0;
+ 	for (page_idx = 0; page_idx < nr_pages; page_idx++) {
+@@ -402,9 +388,6 @@
+ 		}
+ 		page_cache_release(page);
+ 	}
+-#ifdef CONFIG_CMA
+-	wakeup_wq(has_cma);
+-#endif
+ 	BUG_ON(!list_empty(pages));
+ 	if (bio)
+ 		mpage_bio_submit(READ, bio);
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/include/linux/amlogic/aml_lcd_bl.h linux-amlogic-3.10-c8d5b2f/include/linux/amlogic/aml_lcd_bl.h
+--- linux-amlogic-3.10-c8d5b2f.orig/include/linux/amlogic/aml_lcd_bl.h	2016-05-07 12:15:43.691774322 +0200
++++ linux-amlogic-3.10-c8d5b2f/include/linux/amlogic/aml_lcd_bl.h	2016-05-07 12:21:41.353407079 +0200
+@@ -1 +1,24 @@
+-/* * AMLOGIC lcd backlight support header file for backlight driver. * * * Author:  Evoke Zhang <evoke.zhang@amlogic.com> * */#ifndef __AML_LCD_BACKLIGHT_H#define __AML_LCD_BACKLIGHT_H#define	DRV_BL_FLAG		0#define LCD_BL_FLAG		1#define BL_LEVEL_MAX    		255#define BL_LEVEL_MIN    		10#define BL_LEVEL_OFF			1#define BL_LEVEL_MID    		128#define BL_LEVEL_MID_MAPPED		102extern void bl_power_on(int bl_flag);extern void bl_power_off(int bl_flag);extern unsigned get_backlight_level(void);#endif
+\ No newline at end of file
++/*
++ * AMLOGIC lcd backlight support header file for backlight driver.
++ *
++ *
++ * Author:  Evoke Zhang <evoke.zhang@amlogic.com>
++ *
++ */
++#ifndef __AML_LCD_BACKLIGHT_H
++#define __AML_LCD_BACKLIGHT_H
++
++#define	DRV_BL_FLAG		0
++#define LCD_BL_FLAG		1
++
++#define BL_LEVEL_MAX    		255
++#define BL_LEVEL_MIN    		10
++#define BL_LEVEL_OFF			1
++
++#define BL_LEVEL_MID    		128
++#define BL_LEVEL_MID_MAPPED		102
++
++extern void bl_power_on(int bl_flag);
++extern void bl_power_off(int bl_flag);
++extern unsigned get_backlight_level(void);
++#endif

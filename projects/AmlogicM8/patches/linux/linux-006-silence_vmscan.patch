@@ -1,0 +1,20 @@
+diff -rNu linux-amlogic-3.10-e6dedd5.orig/mm/vmscan.c linux-amlogic-3.10-e6dedd5/mm/vmscan.c
+--- linux-amlogic-3.10-e6dedd5.orig/mm/vmscan.c	2016-02-21 11:41:02.591564156 +0100
++++ linux-amlogic-3.10-e6dedd5/mm/vmscan.c	2016-02-21 11:41:40.833622696 +0100
+@@ -2815,8 +2815,6 @@
+ 				zone_clear_flag(zone, ZONE_CONGESTED);
+ 			}
+ 		}
+-		printk(KERN_DEBUG"%s end zone=%d, pgdat_is_balanced=%d\n", __func__,
+-			   end_zone, pgdat_is_balanced);
+ 		if (i < 0) {
+ 			pgdat_is_balanced = true;
+ 			goto out;
+@@ -2916,7 +2914,6 @@
+ 				 */
+ 				zone_clear_flag(zone, ZONE_CONGESTED);
+ 		}
+-		printk(KERN_DEBUG"%s, nr_reclaimed=%lu\n",__func__, sc.nr_reclaimed);
+ 		/*
+ 		 * If the low watermark is met there is no need for processes
+ 		 * to be throttled on pfmemalloc_wait as they should not be

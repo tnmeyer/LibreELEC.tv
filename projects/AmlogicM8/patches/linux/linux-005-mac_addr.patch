@@ -1,0 +1,23 @@
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/drivers/amlogic/ethernet/am_net8218.c linux-amlogic-3.10-c8d5b2f/drivers/amlogic/ethernet/am_net8218.c
+--- linux-amlogic-3.10-c8d5b2f.orig/drivers/amlogic/ethernet/am_net8218.c	2016-05-07 11:27:09.037054745 +0200
++++ linux-amlogic-3.10-c8d5b2f/drivers/amlogic/ethernet/am_net8218.c	2016-05-07 11:29:04.333255872 +0200
+@@ -934,14 +934,16 @@
+ 
+ 	writel(1, (void*)(np->base_addr + ETH_DMA_0_Bus_Mode));
+ 	writel(0x00100800,(void*)(np->base_addr + ETH_DMA_0_Bus_Mode));
+-	printk("--1--write mac add to:");
++	printk("meson_eth: mac addr in device: ");
+ 
+ 	data_dump(ndev->dev_addr, 6);
+ #if defined (CONFIG_AML_NAND_KEY) || defined (CONFIG_SECURITYKEY)
+-        if (!g_mac_addr_setup)
++	if (g_mac_addr_setup == 0) {
++		printk("meson_eth: using mac addr in nand: ");
+ 		read_mac_from_nand(ndev);
++	}
+ #endif
+-	printk("--2--write mac add to:");
++	printk("meson_eth: write mac addr to:");
+ 	data_dump(ndev->dev_addr, 6);
+ 	write_mac_addr(ndev, ndev->dev_addr);
+ 

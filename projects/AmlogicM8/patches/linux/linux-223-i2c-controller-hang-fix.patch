@@ -1,0 +1,19 @@
+diff -rNu linux-amlogic-3.10-c8d5b2f.orig/drivers/amlogic/i2c/aml_i2c.c linux-amlogic-3.10-c8d5b2f/drivers/amlogic/i2c/aml_i2c.c
+--- linux-amlogic-3.10-c8d5b2f.orig/drivers/amlogic/i2c/aml_i2c.c	2016-05-07 11:30:00.734727852 +0200
++++ linux-amlogic-3.10-c8d5b2f/drivers/amlogic/i2c/aml_i2c.c	2016-05-07 11:33:49.293870045 +0200
+@@ -218,6 +218,15 @@
+ 
+ static void aml_i2c_start_token_xfer(struct aml_i2c *i2c)
+ {
++	struct aml_i2c_reg_ctrl* ctrl =
++		(struct aml_i2c_reg_ctrl*)&(i2c->master_regs->i2c_ctrl);
++
++	if(ctrl->manual_en || ctrl->ack_ignore)	{
++		dev_err(&i2c->adap.dev, "Controller Error! manual_en = %d, ack_ignore = %d\n",
++								ctrl->manual_en, ctrl->ack_ignore);
++		// Controller Error Fix.
++		ctrl->manual_en = 0;	ctrl->ack_ignore = 0;
++	}
+ 	aml_i2c_dump(i2c);
+ 	i2c->master_regs->i2c_ctrl &= ~1;	/*clear*/
+ 	i2c->master_regs->i2c_ctrl |= 1;	/*set*/
