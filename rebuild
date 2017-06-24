@@ -1,0 +1,6 @@
+#!/bin/sh
+export CCACHE_DIR=/datadisk/src/.ccache
+export PROJECT=AmlogicM8
+export ARCH=arm
+scripts/build $1
+scripts/install $1

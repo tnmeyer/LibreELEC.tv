@@ -43,6 +43,65 @@ if [ "$MEDIACENTER" = "kodi" ]; then
                                           pycrypto"
 # other packages
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET LibreELEC-settings \
-                                          xmlstarlet \
-                                          peripheral.joystick"
+                                          xmlstarlet"
+# audio addons
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET adsp.basic"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET adsp.biquad.filters"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET adsp.freesurround"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.2sf"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.asap"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.dumb"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.fluidsynth"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.gme"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.gsf"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.modplug"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.ncsf"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.nosefart"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.openmpt"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.organya"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.qsf"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.sidplay"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.snesapu"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.ssf"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.stsound"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.timidity"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.upse"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.usf"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.vgmstream"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audiodecoder.wsr"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audioencoder.flac"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audioencoder.lame"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audioencoder.vorbis"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET audioencoder.wav"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET inputstream.adaptive"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET inputstream.rtmp"
+
+# PVR Addons
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.argustv"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.demo"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.dvblink"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.dvbviewer"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.filmon"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.hts"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.hdhomerun"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.iptvsimple"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.mediaportal.tvserver"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.mythtv"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.nextpvr"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.njoy"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.pctv"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.stalker"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.vbox"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.vdr.vnsi"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.vuplus"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET pvr.wmc"
+
+# visualization addons
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET visualization.spectrum"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET visualization.waveform"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET visualization.shadertoy"
+
+# screensaver addons
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET screensaver.shadertoy"
+
 fi

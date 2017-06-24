@@ -1,0 +1,11 @@
+diff -rNu linux-amlogic-6c88aa0ab50f90e485dea84854fb3bdbef05d51b.orig/arch/arm64/boot/dts/meson64_odroidc2.dts linux-amlogic-6c88aa0ab50f90e485dea84854fb3bdbef05d51b/arch/arm64/boot/dts/meson64_odroidc2.dts
+--- linux-amlogic-6c88aa0ab50f90e485dea84854fb3bdbef05d51b.orig/arch/arm64/boot/dts/meson64_odroidc2.dts	2017-06-03 15:04:11.852535023 +0200
++++ linux-amlogic-6c88aa0ab50f90e485dea84854fb3bdbef05d51b/arch/arm64/boot/dts/meson64_odroidc2.dts	2017-06-03 15:04:43.701444737 +0200
+@@ -892,6 +892,6 @@
+ &audio_data{
+ 	status = "okay";
+ };
+-&meson_ir {
++&aml_remote {
+ 	status = "okay";
+ };
