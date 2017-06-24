@@ -17,11 +17,11 @@
 ################################################################################
 
 PKG_NAME="slang"
-PKG_VERSION="2.1.4"
+PKG_VERSION="2.2.4"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://s-lang.org/"
-PKG_URL="ftp://space.mit.edu/pub/davis/slang/v2.1/$PKG_NAME-$PKG_VERSION.tar.gz"
+PKG_URL="ftp://space.mit.edu/pub/davis/slang/v2.2/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_SECTION="devel"
 PKG_SHORTDESC="slang: multi-platform programmer's library designed to allow a developer to create robust multi-platform software."
@@ -32,15 +32,35 @@ PKG_AUTORECONF="no"
 
 MAKEFLAGS=-j1
 
-
-pre_configure_target() {
- # slang fails to build in subdirs
- cd $PKG_BUILD
- rm -rf .$TARGET_NAME
+configure_target() {
+./configure --host=$TARGET_NAME \
+	--build=$HOST_NAME \
+	--prefix=/usr \
+	--exec-prefix=/usr \
+	--sysconfdir=/etc \
+	--datadir=/usr/share \
+	--without-iconv \
+	--without-onig \
+	--without-pcre \
+	--without-png \
+	--without-z \
+	--without-x \
+fu_cv_sys_stat_st
 }
 
-pre_configure_host() {
- # slang fails to build in subdirs
- cd $PKG_BUILD
- rm -rf .$HOST_NAME
+pre_build_target() {
+  mkdir -p $PKG_BUILD/.$TARGET_NAME
+  cp -RP $PKG_BUILD/* $PKG_BUILD/.$TARGET_NAME
+}
+
+make_target() {
+MAKEFLAGS=-j1
+  make
+  $MAKEINSTALL
+  }
+
+makeinstall_target() {
+  $MAKEINSTALL
+  mkdir -p $INSTALL/usr/lib
+  cp -P src/"$ARCH"elfobjs/libslan* $INSTALL/usr/lib
 }

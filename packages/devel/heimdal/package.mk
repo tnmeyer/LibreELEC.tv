@@ -17,7 +17,7 @@
 ################################################################################
 
 PKG_NAME="heimdal"
-PKG_VERSION="7.1.0"
+PKG_VERSION="7.3.0"
 PKG_ARCH="any"
 PKG_LICENSE="BSD-3c"
 PKG_SITE="http://www.h5l.org/"
@@ -39,7 +39,6 @@ PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
                          --without-sqlite3 \
                          --without-libintl \
                          --without-openssl \
-                         --without-berkeley-db \
                          --without-readline \
                          --without-libedit \
                          --without-hesiod \
