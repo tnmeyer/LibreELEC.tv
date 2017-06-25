@@ -17,15 +17,15 @@
 ################################################################################
 
 PKG_NAME="tvheadend42"
-PKG_VERSION="76dbc3e"
-PKG_VERSION_NUMBER="4.2.2-32"
+PKG_VERSION="a84adb2"
+PKG_VERSION_NUMBER="4.2.2-75"
 PKG_REV="111"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvheadend.org"
 PKG_URL="https://github.com/tvheadend/tvheadend/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="tvheadend-${PKG_VERSION}*"
-PKG_DEPENDS_TARGET="toolchain curl dvb-tools libdvbcsa libiconv libressl pngquant:host Python:host yasm"
+PKG_DEPENDS_TARGET="toolchain curl dvb-tools libdvbcsa libiconv openssl pngquant:host Python:host yasm"
 PKG_SECTION="service"
 PKG_SHORTDESC="Tvheadend: a TV streaming server for Linux"
 PKG_LONGDESC="Tvheadend ($PKG_VERSION_NUMBER): is a TV streaming server for Linux supporting DVB-S/S2, DVB-C, DVB-T/T2, IPTV, SAT>IP, ATSC and ISDB-T"
@@ -79,6 +79,8 @@ pre_configure_target() {
 # transcoding
   if [ "$TARGET_ARCH" = x86_64 ]; then
     export AS=$TOOLCHAIN/bin/yasm
+    export LDFLAGS="$LDFLAGS -lX11 -lm -lvdpau -lva -lva-drm -lva-x11"
+    export ARCH=$TARGET_ARCH
   fi
 
   export CROSS_COMPILE=$TARGET_PREFIX
@@ -94,7 +96,6 @@ fi
 
 post_make_target() {
   $CC -O -fbuiltin -fomit-frame-pointer -fPIC -shared -o capmt_ca.so src/extra/capmt_ca.c -ldl
-  $STRIP $PKG_BUILD/build.linux/tvheadend
 }
 
 makeinstall_target() {

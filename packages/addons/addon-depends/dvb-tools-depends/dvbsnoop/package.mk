@@ -1,6 +1,6 @@
 ################################################################################
 #      This file is part of LibreELEC - https://libreelec.tv
-#      Copyright (C) 2016 Team LibreELEC
+#      Copyright (C) 2017-present Team LibreELEC
 #
 #  LibreELEC is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,23 +16,18 @@
 #  along with LibreELEC.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
-PKG_NAME="libimobiledevice"
-PKG_VERSION="1.2.0"
+PKG_NAME="dvbsnoop"
+PKG_VERSION="c1ec72f"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="http://www.libimobiledevice.org"
-PKG_URL="http://www.libimobiledevice.org/downloads/$PKG_NAME-$PKG_VERSION.tar.bz2"
-PKG_DEPENDS_TARGET="toolchain libusbmuxd openssl"
-PKG_SECTION="libs"
-PKG_SHORTDESC="libimobiledevice is a cross-platform software library that talks the protocols to support iPhone®, iPod Touch®, iPad® and Apple TV® devices"
-PKG_LONGDESC="libimobiledevice is a cross-platform software library that talks the protocols to support iPhone®, iPod Touch®, iPad® and Apple TV® devices"
+PKG_SITE="http://dvbsnoop.sourceforge.net/"
+PKG_URL="https://github.com/persianpros/dvbsnoop/archive/$PKG_VERSION.tar.gz"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_SECTION="tools"
+PKG_SHORTDESC="dvbsnoop is a DVB/MPEG stream analyzer program"
+PKG_LONGDESC="dvbsnoop is a DVB/MPEG stream analyzer program"
 PKG_AUTORECONF="yes"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-static \
-                           --disable-shared \
-                           --without-cython \
-                           --disable-largefile"
-
-post_makeinstall_target() {
-  cp $PKG_BUILD/common/utils.h $SYSROOT_PREFIX/usr/include/libimobiledevice/
+makeinstall_target() {
+  :
 }
