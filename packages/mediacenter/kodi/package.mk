@@ -33,10 +33,6 @@ PKG_AUTORECONF="no"
 
 PKG_CMAKE_SCRIPT="$PKG_BUILD/project/cmake/CMakeLists.txt"
 
-if [ "$KODIPLAYER_DRIVER" = libamcodec ]; then
-    PKG_PATCH_DIRS="amlogic"
-fi
-
   get_graphicdrivers
 
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET dbus"
