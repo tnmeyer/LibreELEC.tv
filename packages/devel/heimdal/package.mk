@@ -17,7 +17,11 @@
 ################################################################################
 
 PKG_NAME="heimdal"
+<<<<<<< HEAD
 PKG_VERSION="7.3.0"
+=======
+PKG_VERSION="7.4.0"
+>>>>>>> upstream/libreelec-8.2
 PKG_ARCH="any"
 PKG_LICENSE="BSD-3c"
 PKG_SITE="http://www.h5l.org/"
@@ -43,6 +47,7 @@ PKG_CONFIGURE_OPTS_HOST="--enable-static --disable-shared \
                          --without-libedit \
                          --without-hesiod \
                          --without-x \
+                         --with-db-type-preference= \
                          --disable-heimdal-documentation"
 
 makeinstall_host() {
